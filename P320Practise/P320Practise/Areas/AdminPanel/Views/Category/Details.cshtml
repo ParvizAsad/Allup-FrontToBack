@@ -1,0 +1,30 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">@Html.Raw(@Model.Name)</h4>
+                @if (Model.IsMain)
+                {
+                     <img src="~/assets/images/@Model.Image" style="width: 150px; height: 150px;"/>
+                    <p>Children: </p>
+                    <ul>
+                        @foreach (var item in Model.Children)
+                       {
+                           <li>@item.Name</li>
+                       }
+                    </ul>
+                }
+                else
+                {
+                    <p>Parent: @Model.Parent.Name</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

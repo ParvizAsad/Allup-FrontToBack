@@ -1,0 +1,85 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Update";
+}
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Update Category</h4>
+            <form class="forms-sample mt-2" method="post" enctype="multipart/form-data">
+                    @if (Model.IsMain)
+                    {
+                       <img src="~/assets/images/@Model.Image" style="width: 150px; height: 150px;"/>
+                    }
+
+                    <div class="form-group">
+                        <label asp-for="IsMain">Is Main</label>
+                        <input class="form-control" asp-for="IsMain" placeholder="IsMain">
+                        <span asp-validation-for="IsMain" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group d-none" id="photoDiv">
+                        <label asp-for="Photo">Photo</label>
+                        <input class="form-control" placeholder="Photo" asp-for="Photo" accept="image/*">
+                        <span asp-validation-for="Photo" class="text-danger"></span>
+                    </div>
+
+                  <div class="form-group" id="parentCategoryDiv">
+                      <label asp-for="Parent">Parent</label>
+                      <select class="form-control" name="parentCategoryId">
+                      <option value="0">optional</option>
+                      @foreach (var item in ViewBag.ParentCategories)
+                      {
+                        <option value="@item.Id">@item.Name</option>
+                      }
+                      </select>
+                 </div>
+
+                 <div class="form-group">
+                    <label asp-for="Name">Name</label>
+                    <textarea class="form-control" placeholder="Name" asp-for="Name" ></textarea>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <a class="btn btn-light" asp-action="Index">Cancel</a>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationPartial" />
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+    <script>
+    ClassicEditor
+        .create( document.querySelector( '#Name' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+    </script>
+
+
+    <script>
+
+        $("#IsMain").prop("checked", false);
+        $(document).on('change', "#IsMain", function() {
+            if ($(this).is(":checked")){
+                $("#photoDiv").removeClass("d-none");
+                $("#parentCategoryDiv").addClass("d-none");
+            } 
+            
+            else {
+                $("#photoDiv").addClass("d-none");
+                $("#parentCategoryDiv").removeClass("d-none");
+            }
+        });
+
+    </script>
+
+}
+
